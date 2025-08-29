@@ -1,0 +1,53 @@
+# Site settings
+title: "Google Gemini Citation Remover"
+description: "Remove citation markers from Google Gemini AI responses. Fix [cite_start], [cite: numbers] formatting issues when copying from Gemini 2.5 Pro and Flash."
+url: "https://bpetrynski.github.io" # Your GitHub Pages URL
+baseurl: "/gemini-citation-remover" # Your repository name
+
+# SEO settings
+lang: en
+author: "Bartosz Petrynski" # Your name
+twitter:
+  username: "bpetrynski" # Optional - update if you have Twitter
+  card: summary
+
+# GitHub repository info
+github:
+  repository_url: "https://github.com/bpetrynski/gemini-citation-remover" # Your repo URL
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Social media and contact
+social:
+  name: "Bartosz Petrynski"
+  links:
+    - "https://github.com/bpetrynski" # Your GitHub profile
+
+# Google Analytics (optional)
+# google_analytics: "G-XXXXXXXXXX" # Uncomment and add your tracking ID
+
+# Additional metadata
+keywords: "Google Gemini, citation remover, AI text cleanup, Gemini 2.5 Pro, Gemini Flash, markdown formatting, cite_start"
+
+# Theme (GitHub Pages compatible themes)
+# theme: minima # Uncomment if you want to use a theme instead of custom HTML

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Gemini Citation Remover - Fix Copy Response Issues | Gemini 2.5 Pro & Flash</title>
+    <meta name="description" content="Remove citation markers from Google Gemini 2.5 Pro and Flash responses. Fix [cite_start], [cite: numbers] formatting issues when copying Gemini AI responses.">
+    <meta name="keywords" content="Google Gemini, citation remover, Gemini 2.5 Pro, Gemini Flash, copy response, cite_start, markdown fix, AI text cleanup">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn {
+            background-color: #4285f4;
+            color: white;
+        }
+        
+        .primary-btn:hover {
+            background-color: #3367d6;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+        }
+        
+        .secondary-btn {
+            background-color: #f8f9fa;
+            color: #5f6368;
+            border: 1px solid #dadce0;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #e8eaed;
+        }
+        
+        .stats {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+        
+        .citation-pattern {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #856404;
+        }
+        
+        .success-message {
+            background-color: #d1f2eb;
+            border: 1px solid #a3e4d7;
+            color: #0e6655;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Google Gemini Citation Remover</h1>
+        
+        <div style="background-color: #e8f4fd; border: 1px solid #1976d2; border-radius: 8px; padding: 20px; margin-bottom: 20px; color: #1565c0;">
+            <h3 style="margin-top: 0; color: #1565c0;">Fix Google Gemini 2.5 Pro & Flash Copy Issues</h3>
+            <p style="margin-bottom: 10px;">When you click <strong>"Copy response"</strong> in Google Gemini 2.5 Pro or Gemini Flash, the copied text includes citation markers like <code>[cite_start]</code>, <code>[cite: 1, 8]</code>, and <code>[cite_end]</code>. These markers break formatting when you paste the text elsewhere.</p>
+            <p style="margin-bottom: 0;"><strong>This tool solves that problem</strong> by removing all Gemini citation markers while preserving your document structure and fixing markdown formatting issues.</p>
+        </div>
+        
+        <div class="citation-pattern">
+            <strong>What this tool does:</strong><br>
+            • Removes Google Gemini citation markers: [cite_start], [cite: numbers], [cite_end]<br>
+            • Fixes markdown formatting conflicts (converts bullet * to - when used with bold text)<br>
+            • Preserves all line breaks, paragraphs, and document structure<br>
+            • Produces clean, properly formatted markdown ready for any use
+        </div>
+        
+        <div class="section">
+            <label for="input-text">📥 Paste your text with citations here:</label>
+            <textarea id="input-text" placeholder="Paste your text with Gemini citations here..."></textarea>
+        </div>
+        
+        <div class="button-group">
+            <button class="primary-btn" onclick="removeCitations()">Remove Citations</button>
+            <button class="secondary-btn" onclick="clearAll()">Clear All</button>
+        </div>
+        
+        <div class="success-message" id="success-message">
+            ✅ Citations removed successfully!
+        </div>
+        
+        <div class="stats" id="stats" style="display: none;"></div>
+        
+        <div class="section">
+            <label for="output-text">📤 Clean text (without citations):</label>
+            <textarea id="output-text" readonly placeholder="Cleaned text will appear here..."></textarea>
+        </div>
+        
+        <div class="button-group">
+            <button class="secondary-btn" onclick="copyToClipboard()">📋 Copy Clean Text</button>
+        </div>
+        
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-top: 30px; font-size: 14px; color: #5f6368;">
+            <h4 style="margin-top: 0; color: #333;">Common Google Gemini Copy Issues Solved:</h4>
+            <ul style="margin-bottom: 10px; padding-left: 20px;">
+                <li><strong>[cite_start]</strong> markers appearing at the beginning of sentences</li>
+                <li><strong>[cite: 1, 8, 15]</strong> number references breaking text flow</li>
+                <li><strong>[cite_end]</strong> markers disrupting paragraph structure</li>
+                <li><strong>Markdown formatting conflicts</strong> with bullet points and bold text</li>
+                <li><strong>Broken formatting</strong> when pasting into documents, emails, or other platforms</li>
+            </ul>
+            <p style="margin-bottom: 0;"><em>Works with all Google Gemini models including Gemini 2.5 Pro, Gemini 1.5 Pro, Gemini Flash, and Gemini Advanced responses.</em></p>
+        </div>
+    </div>
+
+    <script>
+        function removeCitations() {
+            const inputText = document.getElementById('input-text').value;
+            
+            if (!inputText.trim()) {
+                alert('Please paste some text first!');
+                return;
+            }
+            
+            // Count citations before removal
+            const citeStartCount = (inputText.match(/\[cite_start\]/g) || []).length;
+            const citeWithNumbersCount = (inputText.match(/\[cite:\s*[\d,\s]+\]/g) || []).length;
+            const citeEndCount = (inputText.match(/\[cite_end\]/g) || []).length;
+            
+            // Remove various citation patterns while preserving formatting
+            let cleanText = inputText
+                // Remove [cite_start] markers
+                .replace(/\[cite_start\]/g, '')
+                // Remove [cite: numbers] patterns
+                .replace(/\[cite:\s*[\d,\s]+\]/g, '')
+                // Remove [cite_end] markers
+                .replace(/\[cite_end\]/g, '')
+                // Remove any other [cite...] patterns
+                .replace(/\[cite[^\]]*\]/g, '')
+                // Fix markdown formatting issue: convert bullet * to - when followed by bold **
+                .replace(/^\* (\*\*)/gm, '- $1')
+                // Only clean up multiple spaces on the same line (preserve line breaks)
+                .replace(/[ \t]+/g, ' ')
+                // Clean up any trailing spaces at end of lines
+                .replace(/[ \t]+$/gm, '')
+                // Clean up leading spaces that might be left after citation removal
+                .replace(/^[ \t]+/gm, '');
+            
+            document.getElementById('output-text').value = cleanText;
+            
+            // Show stats
+            const totalRemoved = citeStartCount + citeWithNumbersCount + citeEndCount;
+            const statsDiv = document.getElementById('stats');
+            statsDiv.innerHTML = `
+                <strong>Statistics:</strong><br>
+                • [cite_start] removed: ${citeStartCount}<br>
+                • [cite: numbers] removed: ${citeWithNumbersCount}<br>
+                • [cite_end] removed: ${citeEndCount}<br>
+                • <strong>Total citations removed: ${totalRemoved}</strong><br>
+                • Original length: ${inputText.length} characters<br>
+                • Clean length: ${cleanText.length} characters
+            `;
+            statsDiv.style.display = 'block';
+            
+            // Show success message
+            const successMsg = document.getElementById('success-message');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+        
+        function clearAll() {
+            document.getElementById('input-text').value = '';
+            document.getElementById('output-text').value = '';
+            document.getElementById('stats').style.display = 'none';
+            document.getElementById('success-message').style.display = 'none';
+        }
+        
+        function copyToClipboard() {
+            const outputText = document.getElementById('output-text');
+            
+            if (!outputText.value.trim()) {
+                alert('No clean text to copy! Please remove citations first.');
+                return;
+            }
+            
+            outputText.select();
+            outputText.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                document.execCommand('copy');
+                
+                // Visual feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.backgroundColor = '#34a853';
+                btn.style.color = 'white';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '';
+                    btn.style.color = '';
+                }, 2000);
+                
+            } catch (err) {
+                alert('Failed to copy text. Please select and copy manually.');
+            }
+        }
+        
+        // Auto-resize textareas
+        document.addEventListener('DOMContentLoaded', function() {
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = Math.max(200, this.scrollHeight) + 'px';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
