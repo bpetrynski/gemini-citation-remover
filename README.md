@@ -2,7 +2,7 @@
 
 🧹 **Clean up your Google Gemini responses instantly!**
 
-A simple web tool that removes citation markers from Google Gemini 2.5 Pro and Flash responses, fixing formatting issues when you copy and paste AI-generated text.
+A simple web tool that removes citation markers from Google Gemini 3.0, 2.5 Pro and Flash responses, fixing formatting issues when you copy and paste AI-generated text.
 
 ## 🌟 Live Demo
 
@@ -10,7 +10,7 @@ A simple web tool that removes citation markers from Google Gemini 2.5 Pro and F
 
 ## 🔧 What It Does
 
-When you click "Copy response" in Google Gemini 2.5 Pro or Gemini Flash, the text includes citation markers that break formatting:
+When you click "Copy response" in Google Gemini 3.0, 2.5 Pro or Gemini Flash, the text includes citation markers that break formatting:
 
 - `[cite_start]` at the beginning of sentences
 - `[cite: 1, 8, 15]` number references 
@@ -21,6 +21,7 @@ This tool **removes all citation markers** while:
 ✅ Preserving document structure and line breaks  
 ✅ Fixing markdown formatting conflicts  
 ✅ Producing clean, properly formatted text  
+✅ **New:** Copy as rich text (HTML) or plain text
 ✅ Ready to paste anywhere without formatting issues  
 
 ## 🔒 Privacy & Security
@@ -35,6 +36,7 @@ This tool **removes all citation markers** while:
 - Removes all Gemini citation patterns: `[cite_start]`, `[cite: numbers]`, `[cite_end]`
 - Fixes markdown formatting conflicts (bullet points + bold text)
 - Preserves document structure and line breaks
+- Converts Markdown to HTML for rich text copying
 - Real-time statistics and feedback
 - One-click copy functionality
 - Responsive design for mobile and desktop
